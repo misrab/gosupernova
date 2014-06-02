@@ -1,0 +1,199 @@
+// sidebar
+.sidebar_item:hover .sidebar_item_prompt 
+	display: block
+
+
+.sidebar_item_prompt 
+	margin-top: 100px 
+	font-size: 1.25em 
+	color: white
+	-moz-text-shadow:    0 0 6px whitesmoke
+	-webkit-text-shadow: 0 0 6px whitesmoke
+	text-shadow:         0 0 6px whitesmoke
+	display: none
+
+
+#sidebar_data, #sidebar_analysis, 
+#sidebar_content .upload_area 
+	position: absolute !important
+	width: 96px
+	height: 96px
+	left: 50%
+	margin-left: -48px
+
+#sidebar_content .upload_area 
+	top: 48px
+
+#sidebar_data, #sidebar_analysis 
+	background-size: 96px 96px
+
+#sidebar_content .upload_area 
+	position: absolute
+	background-image: url('/img/workspace/upload.png')
+	background-size: 72px 72px
+	background-repeat: no-repeat
+	background-position: center 
+
+#sidebar_data 
+	background-image: url('/img/workspace/sidebar_data.png')
+
+#sidebar_data:hover, #sidebar_data.active 
+	background-image: url('/img/workspace/sidebar_data_hover.png')
+
+#sidebar_analysis 
+	background-image: url('/img/workspace/sidebar_analysis.png')
+
+#sidebar_analysis:hover, #sidebar_analysis.active 
+	background-image: url('/img/workspace/sidebar_analysis_hover.png')
+
+#sidebar_data.active, #sidebar_analysis.active 
+	-moz-box-shadow:    0 0 20px whitesmoke
+	-webkit-box-shadow: 0 0 20px whitesmoke
+	box-shadow:         0 0 20px whitesmoke
+
+
+.sidebar_item_menu 
+	color: black
+
+.sidebar_item_menu .sidebar_files 
+	max-height: 200px
+	overflow-y: scroll
+	background-color: white
+
+.sidebar_item_menu .sidebar_files .menu_item 
+	text-align: right
+	padding: 10px
+
+.sidebar_item_menu .sidebar_files .menu_item .glyphicon 
+	padding: 5px
+	cursor: pointer
+
+
+.sidebar_item_menu .sidebar_files .menu_item .glyphicon.active 
+	background-color: #5bc0de
+
+
+
+// workspace non-sidebar
+
+.upload_area 
+	border: 2px dashed grey
+	border-radius: 6px
+	background-color: white
+	padding: 15px
+	text-align: center
+
+.upload_area img 
+	cursor: pointer
+
+
+.remove_cube 
+	cursor: pointer
+
+.remove_cube:hover 
+	color: white
+
+.cube_summary 
+	max-width: 90%
+	margin: 0 auto
+	height: 300px
+	overflow-y: hidden
+	overflow-x: scroll
+	
+
+.cube_summary .cube_data_table 
+	display: block
+
+
+.cube_summary table td 
+	background-color: white
+	border: 1px solid grey
+	padding: 5px
+
+.cube_summary table td:hover 
+	background-color: lightblue
+
+
+.sidebar_item 
+	max-width: 80%
+	margin: 30px auto
+
+
+#wrapper 
+	padding-left: 250px
+	transition: all 0.4s ease 0s
+
+
+
+#top_left_mask 
+	position: fixed
+	top: 0
+	left: 0
+	width: 250px
+	height: 59px
+
+#sidebar_background 
+	position: absolute
+	width: 100%
+	height: 100%
+
+#sidebar_background, #top_left_mask 
+	z-index: -1
+
+	background-color: black
+	opacity: .50
+	filter: alpha(opacity=50)
+	-ms-filter: "alpha(opacity=50)"
+	-khtml-opacity: .50
+	-moz-opacity: .50
+
+#sidebar_content 
+	z-index: 1000
+	width: 100%
+	min-height: 100%
+	padding: 0 10px
+
+#sidebar-wrapper 
+	text-align: center
+
+
+	margin-left: -250px
+	left: 250px
+	width: 250px
+	position: fixed
+	min-height: 100%
+	overflow-y: auto
+	z-index: 1000
+	transition: all 0.4s ease 0s
+
+
+#page-content-wrapper 
+	width: 100%
+
+
+.sidebar-nav 
+	width: 250px
+	list-style: none
+	margin: 0
+	padding: 0
+
+
+@media (max-width:767px) 
+
+	#wrapper 
+		padding-left: 0
+
+
+	#sidebar-wrapper 
+		left: 0
+
+
+	#wrapper.active 
+		position: relative
+		left: 250px
+
+
+	#wrapper.active, #sidebar-wrapper 
+		left: 250px
+		width: 250px
+		transition: all 0.4s ease 0s
