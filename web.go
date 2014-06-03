@@ -2,6 +2,7 @@ package main
 
 
 import (
+	// Stanford Library
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -12,7 +13,11 @@ import (
 	"log"
 	//"regexp"
 
+	// Github external
 	"github.com/gorilla/mux"
+
+	// Custom internal
+	"github.com/Misrab/gosupernova/app/session"
 )
 
 
@@ -105,18 +110,14 @@ func main() {
 
 	// Routes
 	router := mux.NewRouter()
-	// routes just redirect to angular app TODO regex?
-	//router.Handle("/", http.RedirectHandler("/angular/", 302))
-	//router.Handlerndle("/create", http.RedirectHandler("/angular/", 302))
+	
+	// Angular
 	router.HandleFunc("/", serveAngular)
 	router.HandleFunc("/create", serveAngular)
 	router.HandleFunc("/workspace", serveAngular)
-	//router.HandleFunc(`/{rest:[a-zA-Z0-9=\-\/]+}`, serveAngular)
-	/*
-	regexHandler := new(RegexpHandler)
-	anything := regexp.MustCompile(`/lala$`)
-	regexHandler.HandleFunc(anything, serveAngular)
-	*/
+	
+	// API
+	router.HandleFunc("/api/v1/session", session.SessionHandler)
 
 	// static files
 	router.PathPrefix("/angular/").Handler(http.StripPrefix("/angular", fileHandler))
@@ -141,8 +142,4 @@ func serveAngular(w http.ResponseWriter, req *http.Request) {
         panic(err)
     }
 	fmt.Fprintf(w, string(body))
-
-    //fmt.Println(string(body))
-	//io.WriteString(w, "hello, world!\n")
-	//fmt.Fprintf(w, "<h1>%s</h1><div>%s</div>", p.Title, p.Body)
 }
