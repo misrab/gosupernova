@@ -5,9 +5,25 @@ import (
 	"math"
 )
 
+// CUBE START
+
+type Cube struct {
+	NumRows int  // depending on how we store data, could omit this = len(Data)
+	Labels []string
+	Types []string
+	Info []string
+	// Datapath
+	Data [][]string
+}
+
+
+// CUBE END
+
 
 type Processor struct {
-	previousLength int // length of previous row if any
+	PreviousLength int // length of Previous row if any
+	CurrentCube *Cube
+	PotentialCubes []Cube
 }
 
 
@@ -16,7 +32,7 @@ func (p *Processor) ProcessRow(row []string) {
 	// ignore empty row
 	if (rowL == 0) { return }
 
-	if (smallJump(p.previousLength, rowL)) {
+	if (smallJump(p.PreviousLength, rowL)) {
 		continueCurrentCube(p, row)
 	} else {
 		breakCurrentCube(p, row)
@@ -24,18 +40,50 @@ func (p *Processor) ProcessRow(row []string) {
 
 
 	// update processor length
-	p.previousLength = rowL
+	p.PreviousLength = rowL
 }
 
 // add row to existing cube
 func continueCurrentCube(p* Processor, row []string) {
-
+	//fmt.Println("continue")
+	p.CurrentCube.Data = append(p.CurrentCube.Data, row)
+	p.CurrentCube.NumRows++
 }
 
 // start a new cube in the processor
-// handle the previous cube
+// handle the Previous cube
 func breakCurrentCube(p *Processor, row []string) {
+	// store previous cube if any
+	
+	var prevLabels []string
+	if p.CurrentCube != nil {
+		p.PotentialCubes = append(p.PotentialCubes, *p.CurrentCube)
+		prevLabels = p.CurrentCube.Labels 
+	}
 
+	// set new cube
+	p.CurrentCube = new(Cube)
+	if potentialLabels(row) {
+		p.CurrentCube.Labels = row
+		return
+	}
+
+	p.CurrentCube.Labels = prevLabels
+	p.CurrentCube.Data = append(p.CurrentCube.Data, row)
+	p.CurrentCube.NumRows++
+}
+
+func potentialLabels(row []string) bool {
+	for _, cell := range row {
+		fmt.Println(cell)
+	}
+
+	return true
+}
+
+// try to infer type of a cell
+func inferType(cell string) {
+	
 }
 
 

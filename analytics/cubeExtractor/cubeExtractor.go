@@ -79,5 +79,12 @@ func processCsvFile(path string, c chan int) {
 	    p.ProcessRow(row)
 	}
 
+	//fmt.Println(p.CurrentCube)
+	/*
+	for i := 0; i < len(p.CurrentCube.Data); i++ {
+		fmt.Println(p.CurrentCube.Data[i])
+	}*/
+
+
 	c <- 1
 }
