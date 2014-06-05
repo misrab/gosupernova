@@ -16,25 +16,34 @@ import (
 func ProcessFiles(paths []string) {
 	// process in paralell
 	N := len(paths)
-	c := make(chan int, N)
+	c := make(chan []*processor.Cube, N)
 
 	for _, path := range paths {
 		go processFileType(path, c)
 	}
 
 	// block untill all done
-	//results := []int
-	for i := 0; i < N; i++ { <- c }
+	var results []*processor.Cube
+	for i := 0; i < N; i++ { 
+		results = append(results, <- c...)
+	}
+
+	// print results
+	for _, cubePointer := range results {
+		fmt.Println("========= Potential Cube =========")
+		fmt.Printf("ROWS: %d \n", cubePointer.NumRows)
+		fmt.Printf("LABELS: %s \n", cubePointer.Labels)
+	}
 }
 
 
 
 // determines how to handle file based on extension
-func processFileType(path string, c chan int) {
+func processFileType(path string, c chan []*processor.Cube) {
 	extension := filepath.Ext(path)
 	switch extension {
-	case ".xlsx":
-		processExcelFile(path, c)
+	//case ".xlsx":
+	//	processExcelFile(path, c)
 	case ".csv":
 		processCsvFile(path, c)
 	default:
@@ -45,11 +54,11 @@ func processFileType(path string, c chan int) {
 }
 
 
-func processExcelFile(path string, c chan int) {
-	c <- 1
-}
+//func processExcelFile(path string, c chan int) {
+//	c <- nil
+//}
 
-func processCsvFile(path string, c chan int) {
+func processCsvFile(path string, c chan []*processor.Cube) {
 	file, err := os.Open(path)
 	defer file.Close()
 
@@ -79,12 +88,15 @@ func processCsvFile(path string, c chan int) {
 	    p.ProcessRow(row)
 	}
 
-	//fmt.Println(p.CurrentCube)
+	// add last cube to potentials
+	p.PotentialCubes = append(p.PotentialCubes, p.CurrentCube)
+
+	//fmt.Println(p.CurrentCube.Labels)
 	/*
 	for i := 0; i < len(p.CurrentCube.Data); i++ {
 		fmt.Println(p.CurrentCube.Data[i])
 	}*/
 
-
-	c <- 1
+	// pass cubes found to channel
+	c <- p.PotentialCubes
 }

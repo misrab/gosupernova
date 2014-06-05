@@ -1,8 +1,10 @@
 package processor
 
 import (
-	"fmt"
+	//"fmt"
 	"math"
+	"strconv"
+	"strings"
 )
 
 // CUBE START
@@ -18,12 +20,10 @@ type Cube struct {
 
 
 // CUBE END
-
-
 type Processor struct {
 	PreviousLength int // length of Previous row if any
-	CurrentCube *Cube
-	PotentialCubes []Cube
+	CurrentCube *Cube // pointer to current cube
+	PotentialCubes []*Cube // array of pointers to cubes
 }
 
 
@@ -57,7 +57,7 @@ func breakCurrentCube(p *Processor, row []string) {
 	
 	var prevLabels []string
 	if p.CurrentCube != nil {
-		p.PotentialCubes = append(p.PotentialCubes, *p.CurrentCube)
+		p.PotentialCubes = append(p.PotentialCubes, p.CurrentCube)
 		prevLabels = p.CurrentCube.Labels 
 	}
 
@@ -75,15 +75,32 @@ func breakCurrentCube(p *Processor, row []string) {
 
 func potentialLabels(row []string) bool {
 	for _, cell := range row {
-		fmt.Println(cell)
+		if InferType(cell) != "string" { return false }
 	}
 
 	return true
 }
 
 // try to infer type of a cell
-func inferType(cell string) {
-	
+func InferType(cell string) string {
+	// trim first
+	cell = strings.Trim(cell, " ")
+
+	// empty string
+	if cell == "" {
+		return "empty"
+	}
+
+	// float
+	_, err := strconv.ParseFloat(cell, 64)
+	if err == nil {
+		return "float64"
+	}
+
+	// datetime
+
+
+	return "string"
 }
 
 
